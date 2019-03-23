@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+source "$(dirname "$0")/../github.plugin.zsh"
+
+__github_cloneall_usage() {
+cat <<EOF
+  Usage: $0 owner
+
+    owner - github username or organization name
+
+EOF
+}
+
+if [ "$#" -lt 1 ]; then __github_cloneall_usage; exit 1; fi # if no parameters show usage and die
+
+NAME="$1"
+
+__github_cloneall() {
+  local name="$1"
+
+  echo "searching github for $name"
+  type="none"
+
+  if [ "$(__github_is_user "$1")" = "200" ]; then
+    type="users"
+  fi
+
+  if [ "$(__github_is_org "$1")" = "200" ]; then
+    type="orgs"
+  fi
+
+  if [ "$type" = "none" ]
+  then
+    echo "I did not find a github account for $name"
+    exit 1
+  fi
+
+  __github_clone_repos "$type" "$name"
+}
+
+__github_cloneall "$NAME"

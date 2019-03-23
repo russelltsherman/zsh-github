@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+source "$(dirname "$0")/../github.plugin.zsh"
+
+__github_search_usage() {
+cat <<EOF
+  Usage: $0 term
+
+    term - search term
+
+EOF
+}
+
+if [ "$#" -lt 2 ]; then __github_search_usage; exit 1; fi # if no parameters show usage and die
+
+TERM="$1"
+
+__github_search() {
+  echo "searching github for $TERM"
+}
+
+__github_search "$@"

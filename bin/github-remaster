@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1090
+source "$(dirname "$0")/../github.plugin.zsh"
+
+__github_branch_default_usage() {
+cat <<EOF
+  Usage: $0 owner repo branch
+
+    owner - the github user or organization
+    repo - the repo name
+
+EOF
+}
+
+if [ "$#" -lt 2 ]; then __github_branch_default_usage; exit 1; fi # if no parameters show usage and die
+
+
+__github_branch_default() {
+  set -x
+  local owner="$1"
+  local repo="$2"
+  local original="master"
+  local renamed="main"
+  local dir="${HOME}/src/github.com/${owner}/${repo}"
+
+  cd "$dir" || exit
+
+  # checkout local branch
+  git checkout "$original"
+
+  # Rename the local branch by typing:
+  git branch -m "$renamed"
+
+  # Push the ${RENAMED} local branch and reset the upstream branch:
+  git push origin -u "$renamed"
+
+  __github_set_default_branch "$owner" "$repo" "$renamed"
+
+  # Delete the <old_name> remote branch:
+  git push origin --delete "$original"
+
+}
+
+__github_branch_default "$@"
+
+
+
