@@ -14,9 +14,6 @@ EOF
 
 if [ "$#" -lt 1 ]; then __github_delete_usage; exit 1; fi # if no parameters show usage and die
 
-GITHUB_TOKEN_FILE="${GITHUB_TOKEN_FILE:-$HOME/.github_token}"
-GITHUB_TOKEN="$(head -n 1 "$GITHUB_TOKEN_FILE")"
-GITHUB_API_URL="https://api.github.com"
 OWNER="$1"
 REPO="$2"
 

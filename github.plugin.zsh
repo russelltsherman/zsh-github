@@ -3,7 +3,7 @@
 
 export PATH=${0:A:h}/bin:$PATH
 
-GITHUB_TOKEN_FILE="${GITHUB_TOKEN_FILE:-$HOME/.github_token}"
+GITHUB_TOKEN_FILE="${GITHUB_TOKEN_FILE:-$XDG_CONFIG_HOME/.github_token}"
 GITHUB_TOKEN="$(head -n 1 $GITHUB_TOKEN_FILE)"
 GITHUB_GITHUB_API_URL="https://api.github.com"
 GITHUB_PER_PAGE=100
